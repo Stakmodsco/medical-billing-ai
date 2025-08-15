@@ -23,90 +23,146 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-primary to-primary-light rounded-lg flex items-center justify-center">
-                <Activity className="w-5 h-5 text-white" />
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-light rounded-xl flex items-center justify-center">
+                <Activity className="w-6 h-6 text-primary-foreground" />
               </div>
-              <span className="text-xl font-bold font-heading text-primary">HealthAI Revenue</span>
+              <span className="text-2xl font-bold font-heading text-foreground">HealthAI</span>
             </div>
-            <div className="hidden md:flex items-center gap-6">
-              <a href="#features" className="text-muted-foreground hover:text-primary transition-colors">Features</a>
-              <a href="#capabilities" className="text-muted-foreground hover:text-primary transition-colors">Capabilities</a>
-              <a href="#roi" className="text-muted-foreground hover:text-primary transition-colors">ROI</a>
-              <Button variant="outline" className="mr-2">Login</Button>
-              <Button>Request Demo</Button>
+            
+            <div className="hidden md:flex items-center gap-8">
+              <a href="#solutions" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Solutions</a>
+              <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Pricing</a>
+              <a href="#resources" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Resources</a>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              <Button 
+                variant="outline" 
+                className="border-border hover:bg-muted text-foreground hidden sm:flex"
+              >
+                Sign In
+              </Button>
+              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6">
+                Apply Now →
+              </Button>
             </div>
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="relative py-20 px-4 overflow-hidden bg-gradient-to-br from-background via-muted/30 to-primary/5">
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="animate-fade-in">
-              <h1 className="text-5xl lg:text-6xl font-bold font-heading text-foreground leading-tight mb-6">
-                Revolutionary AI Healthcare 
-                <span className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent"> Revenue Intelligence</span> Platform
-              </h1>
-              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                The system Fortune 500 hospitals fight to get - 94.3% automated with enterprise-grade intelligence
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8">
-                  Request Enterprise Demo
-                </Button>
-                <Button variant="outline" size="lg" className="border-primary text-primary hover:bg-primary/10">
-                  Download ROI Calculator
-                </Button>
+      <section className="relative py-24 px-6 overflow-hidden">
+        <div className="container mx-auto max-w-5xl text-center">
+          <div className="animate-fade-in">
+            <h1 className="text-6xl lg:text-7xl font-bold font-heading text-foreground leading-tight mb-8">
+              AI Healthcare Revenue Platform For
+              <span className="block bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
+                Corporate Transactions
+              </span>
+            </h1>
+            <p className="text-xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
+              Enterprise solutions, automated revenue management, and intelligent expense tracking for Fortune 500 hospitals.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <Button 
+                size="lg" 
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-8 py-4 rounded-lg text-lg"
+              >
+                Apply Now - It's Free
+              </Button>
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="border-border hover:bg-muted text-foreground font-medium px-8 py-4 rounded-lg text-lg"
+              >
+                <Users className="w-5 h-5 mr-2" />
+                Sign Up Using Google
+              </Button>
+            </div>
+            
+            {/* Feature highlights */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-primary" />
+                <span>Unlimited payment lifetime</span>
               </div>
-              
-              {/* Floating Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <div className="bg-success/10 rounded-lg p-3 border border-success/20">
-                  <div className="text-2xl font-bold text-success">94.3%</div>
-                  <div className="text-xs text-success/80">Automated</div>
-                </div>
-                <div className="bg-primary/10 rounded-lg p-3 border border-primary/20">
-                  <div className="text-2xl font-bold text-primary">$47,250+</div>
-                  <div className="text-xs text-primary/80">Revenue</div>
-                </div>
-                <div className="bg-warning/10 rounded-lg p-3 border border-warning/20">
-                  <div className="text-2xl font-bold text-warning">42.5%</div>
-                  <div className="text-xs text-warning/80">Cost Reduction</div>
-                </div>
+              <div className="flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-primary" />
+                <span>10.5k+ Active Brands</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* Dashboard Overview Section */}
+      <section className="py-20 px-6 bg-muted/20">
+        <div className="container mx-auto max-w-6xl">
+          <div className="bg-card border border-border rounded-2xl p-8 shadow-2xl">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 bg-destructive rounded-full"></div>
+                <div className="w-3 h-3 bg-warning rounded-full"></div>
+                <div className="w-3 h-3 bg-success rounded-full"></div>
+                <span className="ml-4 text-lg font-semibold text-foreground">Expense Management</span>
+              </div>
+              <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                <span>Sync to Salesforce</span>
+                <span>Manage</span>
               </div>
             </div>
             
-            {/* Dashboard Preview */}
-            <div className="relative">
-              <div className="bg-card border border-border rounded-xl p-6 shadow-2xl">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-3 h-3 bg-destructive rounded-full"></div>
-                  <div className="w-3 h-3 bg-warning rounded-full"></div>
-                  <div className="w-3 h-3 bg-success rounded-full"></div>
-                  <span className="ml-2 text-sm text-muted-foreground">Live Healthcare Dashboard</span>
+            <div className="mb-8">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-semibold text-foreground">Allocated Budget | Expenses</h3>
+                <div className="flex items-center gap-4">
+                  <span className="text-sm text-muted-foreground">Region</span>
+                  <span className="text-sm text-muted-foreground">Filter</span>
                 </div>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center p-3 bg-muted rounded-lg">
-                    <span className="text-sm">Real-time Processing</span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
-                      <span className="text-sm text-success">Active</span>
-                    </div>
+              </div>
+              
+              <div className="text-sm text-muted-foreground mb-4">
+                Results — Last 30 Days
+              </div>
+              
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div className="bg-success/10 border border-success/20 rounded-xl p-6 hover:shadow-lg transition-all">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-muted-foreground">Total Invoices</span>
+                    <span className="text-xs text-success">+8.5%</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-primary/10 p-3 rounded-lg">
-                      <div className="text-lg font-bold text-primary">97.8%</div>
-                      <div className="text-xs text-muted-foreground">Reimbursement Rate</div>
-                    </div>
-                    <div className="bg-success/10 p-3 rounded-lg">
-                      <div className="text-lg font-bold text-success">$15,420</div>
-                      <div className="text-xs text-muted-foreground">Fraud Prevented</div>
-                    </div>
+                  <div className="text-2xl font-bold text-success mb-1">1,478</div>
+                  <div className="text-xs text-muted-foreground">Last 30 Days</div>
+                </div>
+                
+                <div className="bg-warning/10 border border-warning/20 rounded-xl p-6 hover:shadow-lg transition-all">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-muted-foreground">User Associated</span>
+                    <span className="text-xs text-warning">+8.5%</span>
                   </div>
+                  <div className="text-2xl font-bold text-warning mb-1">340</div>
+                  <div className="text-xs text-muted-foreground">Last 30 Days</div>
+                </div>
+                
+                <div className="bg-primary/10 border border-primary/20 rounded-xl p-6 hover:shadow-lg transition-all">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-muted-foreground">Payment Confirmed</span>
+                    <span className="text-xs text-primary">+8.5%</span>
+                  </div>
+                  <div className="text-2xl font-bold text-primary mb-1">$1,205.50</div>
+                  <div className="text-xs text-muted-foreground">Last 30 Days</div>
+                </div>
+                
+                <div className="bg-muted border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-muted-foreground">Payment Hold</span>
+                    <span className="text-xs text-foreground">+8.5%</span>
+                  </div>
+                  <div className="text-2xl font-bold text-foreground mb-1">$845.75</div>
+                  <div className="text-xs text-muted-foreground">Last 30 Days</div>
                 </div>
               </div>
             </div>
@@ -116,7 +172,7 @@ const Index = () => {
 
       {/* Key Metrics Banner */}
       <section className="py-16 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
             <StatsCard 
               value="94.3%" 
@@ -159,14 +215,14 @@ const Index = () => {
       </section>
 
       {/* AI-Powered Automation Section */}
-      <section id="features" className="py-20 px-4 bg-muted/30">
+      <section id="solutions" className="py-20 px-6 bg-background">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold font-heading mb-4">
+            <h2 className="text-4xl font-bold font-heading mb-4 text-foreground">
               AI-POWERED AUTOMATION <span className="text-primary">(94.3% Automated)</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Revolutionary machine learning algorithms that transform healthcare revenue management with unprecedented automation
+              Revolutionary machine learning algorithms that transform healthcare revenue management
             </p>
           </div>
           
