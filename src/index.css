@@ -8,49 +8,48 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Light theme (fallback) */
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-    /* Healthcare AI Dark Theme */
-    --primary: 158 64% 52%; /* Success green primary */
-    --primary-foreground: 240 10% 3.9%;
-    --primary-light: 160 84% 39%;
+    /* Enterprise Healthcare Color Scheme */
+    --primary: 210 92% 21%; /* Deep medical blue #1e3a8a */
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 213 94% 68%; /* Secondary blue #3b82f6 */
     
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 220 14% 96%; /* #f8fafc */
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 220 13% 91%; /* #e2e8f0 */
+    --accent-foreground: 222.2 47.4% 11.2%;
 
-    /* Healthcare colors */
-    --success: 158 64% 52%; /* Healthcare green */
-    --success-foreground: 240 10% 3.9%;
-    --warning: 38 92% 50%; /* Alert amber */
-    --warning-foreground: 240 10% 3.9%;
+    /* Success and Warning Colors */
+    --success: 158 64% 52%; /* Success green #10b981 */
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%; /* Warning amber #f59e0b */
+    --warning-foreground: 0 0% 100%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 158 64% 52%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 210 92% 21%;
 
     /* Healthcare-specific gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(240 10% 3.9%), hsl(240 3.7% 15.9%));
-    --gradient-card: linear-gradient(145deg, hsl(240 3.7% 15.9%), hsl(240 10% 3.9%));
-    --gradient-primary: linear-gradient(90deg, hsl(158 64% 52%), hsl(160 84% 39%));
+    --gradient-hero: linear-gradient(135deg, hsl(210 92% 21%), hsl(213 94% 68%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(220 14% 96%));
+    --gradient-stats: linear-gradient(90deg, hsl(158 64% 52%), hsl(158 64% 42%));
     
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
 
