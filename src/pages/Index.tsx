@@ -400,47 +400,47 @@ const Index = () => {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-success/95 border border-success/30 rounded-xl p-8 hover:bg-success transition-all duration-300 hover:scale-105 text-white">
+            <div className="bg-success border border-success/20 rounded-xl p-8 hover:bg-success/90 transition-all duration-300 hover:scale-105 text-white shadow-lg">
               <div className="mb-6">
                 <Brain className="w-8 h-8 text-white mb-4" />
                 <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide">AI-POWERED PROCESSING</h3>
-                <p className="text-white/90 text-sm leading-relaxed">
+                <p className="text-white text-sm leading-relaxed">
                   Automatically identifies and captures missed revenue opportunities worth $47,250+ annually through advanced machine learning algorithms
                 </p>
               </div>
             </div>
             
-            <div className="bg-success/95 border border-success/30 rounded-xl p-8 hover:bg-success transition-all duration-300 hover:scale-105 text-white">
+            <div className="bg-success border border-success/20 rounded-xl p-8 hover:bg-success/90 transition-all duration-300 hover:scale-105 text-white shadow-lg">
               <div className="mb-6">
                 <TrendingUp className="w-8 h-8 text-white mb-4" />
                 <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide">REAL-TIME REVENUE</h3>
-                <p className="text-white/90 text-sm leading-relaxed">
+                <p className="text-white text-sm leading-relaxed">
                   Live revenue optimization with predictive analytics that increase reimbursement rates to industry-leading 97.8%
                 </p>
               </div>
             </div>
             
-            <div className="bg-success/95 border border-success/30 rounded-xl p-8 hover:bg-success transition-all duration-300 hover:scale-105 text-white">
+            <div className="bg-success border border-success/20 rounded-xl p-8 hover:bg-success/90 transition-all duration-300 hover:scale-105 text-white shadow-lg">
               <div className="mb-6">
                 <DollarSign className="w-8 h-8 text-white mb-4" />
                 <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide">COST REDUCTION</h3>
-                <p className="text-white/90 text-sm leading-relaxed">
+                <p className="text-white text-sm leading-relaxed">
                   Achieve 42.5% cost reduction through automated processing and intelligent workflow optimization
                 </p>
               </div>
             </div>
             
-            <div className="bg-success/95 border border-success/30 rounded-xl p-8 hover:bg-success transition-all duration-300 hover:scale-105 text-white">
+            <div className="bg-success border border-success/20 rounded-xl p-8 hover:bg-success/90 transition-all duration-300 hover:scale-105 text-white shadow-lg">
               <div className="mb-6">
                 <CheckCircle className="w-8 h-8 text-white mb-4" />
                 <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide">COMPLIANCE AND AUDIT</h3>
-                <p className="text-white/90 text-sm leading-relaxed">
+                <p className="text-white text-sm leading-relaxed">
                   Built for hospital-grade security with SOC 2 compliance and automated regulatory monitoring
                 </p>
               </div>
             </div>
             
-            <div className="bg-success/95 border border-success/30 rounded-xl p-8 hover:bg-success transition-all duration-300 hover:scale-105 text-white">
+            <div className="bg-success border border-success/20 rounded-xl p-8 hover:bg-success/90 transition-all duration-300 hover:scale-105 text-white shadow-lg">
               <div className="mb-6">
                 <Users className="w-8 h-8 text-white mb-4" />
                 <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide">ENTERPRISE SUPPORT</h3>
@@ -450,11 +450,11 @@ const Index = () => {
               </div>
             </div>
             
-            <div className="bg-success/95 border border-success/30 rounded-xl p-8 hover:bg-success transition-all duration-300 hover:scale-105 text-white">
+            <div className="bg-success border border-success/20 rounded-xl p-8 hover:bg-success/90 transition-all duration-300 hover:scale-105 text-white shadow-lg">
               <div className="mb-6">
                 <Lock className="w-8 h-8 text-white mb-4" />
                 <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide">SECURE INFRASTRUCTURE</h3>
-                <p className="text-white/90 text-sm leading-relaxed">
+                <p className="text-white text-sm leading-relaxed">
                   Enterprise-grade security with end-to-end encryption and real-time threat monitoring
                 </p>
               </div>
