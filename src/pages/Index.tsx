@@ -399,38 +399,66 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-8">
-            <FeatureCard
-              icon={<Brain className="w-6 h-6" />}
-              title="AI Revenue Engine"
-              description="Automatically identifies and captures missed revenue opportunities worth $47,250+ annually through machine learning algorithms"
-              highlight
-            />
-            <FeatureCard
-              icon={<Activity className="w-6 h-6" />}
-              title="Predictive Patient Intelligence"
-              description="Forecasts patient needs and care requirements using advanced analytics for optimal resource allocation"
-            />
-            <FeatureCard
-              icon={<Shield className="w-6 h-6" />}
-              title="Real-time Fraud Prevention"
-              description="ML-powered anomaly detection saves millions by identifying suspicious patterns in real-time processing"
-            />
-            <FeatureCard
-              icon={<Zap className="w-6 h-6" />}
-              title="Instant Processing"
-              description="87% faster than industry average with sub-2-second processing times for all revenue operations"
-            />
-            <FeatureCard
-              icon={<FileText className="w-6 h-6" />}
-              title="Smart Coding Assistant"
-              description="Reduces human error by 96% with AI-powered medical coding suggestions and automated validation"
-            />
-            <FeatureCard
-              icon={<Lock className="w-6 h-6" />}
-              title="Enterprise Compliance"
-              description="Built for hospital-grade security and regulations with SOC 2 compliance and audit-ready documentation"
-            />
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="bg-success/95 border border-success/30 rounded-xl p-8 hover:bg-success transition-all duration-300 hover:scale-105 text-white">
+              <div className="mb-6">
+                <Brain className="w-8 h-8 text-white mb-4" />
+                <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide">AI-POWERED PROCESSING</h3>
+                <p className="text-white/90 text-sm leading-relaxed">
+                  Automatically identifies and captures missed revenue opportunities worth $47,250+ annually through advanced machine learning algorithms
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-success/95 border border-success/30 rounded-xl p-8 hover:bg-success transition-all duration-300 hover:scale-105 text-white">
+              <div className="mb-6">
+                <TrendingUp className="w-8 h-8 text-white mb-4" />
+                <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide">REAL-TIME REVENUE</h3>
+                <p className="text-white/90 text-sm leading-relaxed">
+                  Live revenue optimization with predictive analytics that increase reimbursement rates to industry-leading 97.8%
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-success/95 border border-success/30 rounded-xl p-8 hover:bg-success transition-all duration-300 hover:scale-105 text-white">
+              <div className="mb-6">
+                <DollarSign className="w-8 h-8 text-white mb-4" />
+                <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide">COST REDUCTION</h3>
+                <p className="text-white/90 text-sm leading-relaxed">
+                  Achieve 42.5% cost reduction through automated processing and intelligent workflow optimization
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-success/95 border border-success/30 rounded-xl p-8 hover:bg-success transition-all duration-300 hover:scale-105 text-white">
+              <div className="mb-6">
+                <CheckCircle className="w-8 h-8 text-white mb-4" />
+                <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide">COMPLIANCE AND AUDIT</h3>
+                <p className="text-white/90 text-sm leading-relaxed">
+                  Built for hospital-grade security with SOC 2 compliance and automated regulatory monitoring
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-success/95 border border-success/30 rounded-xl p-8 hover:bg-success transition-all duration-300 hover:scale-105 text-white">
+              <div className="mb-6">
+                <Users className="w-8 h-8 text-white mb-4" />
+                <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide">ENTERPRISE SUPPORT</h3>
+                <p className="text-white/90 text-sm leading-relaxed">
+                  24/7 dedicated support for Fortune 500 hospitals with guaranteed response times and expert assistance
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-success/95 border border-success/30 rounded-xl p-8 hover:bg-success transition-all duration-300 hover:scale-105 text-white">
+              <div className="mb-6">
+                <Lock className="w-8 h-8 text-white mb-4" />
+                <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide">SECURE INFRASTRUCTURE</h3>
+                <p className="text-white/90 text-sm leading-relaxed">
+                  Enterprise-grade security with end-to-end encryption and real-time threat monitoring
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
