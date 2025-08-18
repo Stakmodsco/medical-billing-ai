@@ -1,6 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { StatsCard } from '@/components/StatsCard';
 import { FeatureCard } from '@/components/FeatureCard';
+import { useAuth } from '@/hooks/useAuth';
+import { Link } from 'react-router-dom';
 import { 
   Brain, 
   Shield, 
@@ -19,6 +21,12 @@ import {
 } from 'lucide-react';
 
 const Index = () => {
+  const { user, signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
@@ -39,12 +47,29 @@ const Index = () => {
             </div>
             
             <div className="flex items-center gap-4">
-              <Button 
-                variant="outline" 
-                className="border-border hover:bg-muted text-foreground hidden sm:flex"
-              >
-                Sign In
-              </Button>
+              {user ? (
+                <>
+                  <span className="text-sm text-muted-foreground hidden sm:inline">
+                    Welcome, {user.email}
+                  </span>
+                  <Button 
+                    variant="outline" 
+                    onClick={handleSignOut}
+                    className="border-border hover:bg-muted text-foreground hidden sm:flex"
+                  >
+                    Sign Out
+                  </Button>
+                </>
+              ) : (
+                <Link to="/auth">
+                  <Button 
+                    variant="outline" 
+                    className="border-border hover:bg-muted text-foreground hidden sm:flex"
+                  >
+                    Sign In
+                  </Button>
+                </Link>
+              )}
               <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6">
                 Apply Now →
               </Button>
@@ -68,20 +93,35 @@ const Index = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button 
-                size="lg" 
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-8 py-4 rounded-lg text-lg"
-              >
-                Apply Now - It's Free
-              </Button>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="border-border hover:bg-muted text-foreground font-medium px-8 py-4 rounded-lg text-lg"
-              >
-                <Users className="w-5 h-5 mr-2" />
-                Sign Up Using Google
-              </Button>
+              {user ? (
+                <Button 
+                  size="lg" 
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-8 py-4 rounded-lg text-lg"
+                >
+                  Access Dashboard
+                </Button>
+              ) : (
+                <>
+                  <Link to="/auth">
+                    <Button 
+                      size="lg" 
+                      className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-8 py-4 rounded-lg text-lg"
+                    >
+                      Apply Now - It's Free
+                    </Button>
+                  </Link>
+                  <Link to="/auth">
+                    <Button 
+                      variant="outline" 
+                      size="lg" 
+                      className="border-border hover:bg-muted text-foreground font-medium px-8 py-4 rounded-lg text-lg"
+                    >
+                      <Users className="w-5 h-5 mr-2" />
+                      Sign Up Using Google
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
             
             {/* Feature highlights */}
