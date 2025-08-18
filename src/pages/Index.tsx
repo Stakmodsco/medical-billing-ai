@@ -1,6 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { StatsCard } from '@/components/StatsCard';
 import { FeatureCard } from '@/components/FeatureCard';
+import { Dashboard } from '@/components/Dashboard';
+import { ContactForm } from '@/components/ContactForm';
+import { PricingSection } from '@/components/PricingSection';
+import { SplashCursor } from '@/components/SplashCursor';
+import { MobileNav } from '@/components/MobileNav';
 import { useAuth } from '@/hooks/useAuth';
 import { Link } from 'react-router-dom';
 import { 
@@ -27,7 +32,15 @@ const Index = () => {
     await signOut();
   };
 
+  // If user is authenticated, show dashboard
+  if (user) {
+    return <Dashboard />;
+  }
+
   return (
+    <div className="relative">
+      <SplashCursor />
+      <div className="relative z-10">
     <div className="min-h-screen bg-background">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
@@ -43,7 +56,7 @@ const Index = () => {
             <div className="hidden md:flex items-center gap-8">
               <a href="#solutions" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Solutions</a>
               <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Pricing</a>
-              <a href="#resources" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Resources</a>
+              <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Contact</a>
             </div>
             
             <div className="flex items-center gap-4">
@@ -70,9 +83,12 @@ const Index = () => {
                   </Button>
                 </Link>
               )}
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6">
-                Apply Now →
-              </Button>
+              <Link to="/auth">
+                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6">
+                  Apply Now →
+                </Button>
+              </Link>
+              <MobileNav />
             </div>
           </div>
         </div>
@@ -596,6 +612,14 @@ const Index = () => {
           </div>
         </div>
       </footer>
+
+      {/* Pricing Section */}
+      <PricingSection />
+
+      {/* Contact Form */}
+      <ContactForm />
+      </div>
+    </div>
     </div>
   );
 };
