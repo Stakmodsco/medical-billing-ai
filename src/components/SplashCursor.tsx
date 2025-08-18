@@ -176,14 +176,14 @@ function SplashCursor({
       fragmentShaderSource: string;
       programs: any[];
       activeProgram: any;
-      uniforms: any[];
+      uniforms: any;
 
       constructor(vertexShader: any, fragmentShaderSource: string) {
         this.vertexShader = vertexShader;
         this.fragmentShaderSource = fragmentShaderSource;
         this.programs = [];
         this.activeProgram = null;
-        this.uniforms = [];
+        this.uniforms = {};
       }
       setKeywords(keywords) {
         let hash = 0;
@@ -232,7 +232,7 @@ function SplashCursor({
     }
 
     function getUniforms(program) {
-      let uniforms = [];
+      let uniforms = {};
       let uniformCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
       for (let i = 0; i < uniformCount; i++) {
         let uniformName = gl.getActiveUniform(program, i).name;
@@ -280,7 +280,8 @@ function SplashCursor({
             vB = vUv - vec2(0.0, texelSize.y);
             gl_Position = vec4(aPosition, 0.0, 1.0);
         }
-      `
+      `,
+      []
     );
 
     const copyShader = compileShader(
@@ -294,7 +295,8 @@ function SplashCursor({
         void main () {
             gl_FragColor = texture2D(uTexture, vUv);
         }
-      `
+      `,
+      []
     );
 
     const clearShader = compileShader(
@@ -309,7 +311,8 @@ function SplashCursor({
         void main () {
             gl_FragColor = value * texture2D(uTexture, vUv);
         }
-     `
+     `,
+      []
     );
 
     const displayShaderSource = `
@@ -372,7 +375,8 @@ function SplashCursor({
             vec3 base = texture2D(uTarget, vUv).xyz;
             gl_FragColor = vec4(base + splat, 1.0);
         }
-      `
+      `,
+      []
     );
 
     const advectionShader = compileShader(
@@ -443,7 +447,8 @@ function SplashCursor({
             float div = 0.5 * (R - L + T - B);
             gl_FragColor = vec4(div, 0.0, 0.0, 1.0);
         }
-      `
+      `,
+      []
     );
 
     const curlShader = compileShader(
@@ -466,7 +471,8 @@ function SplashCursor({
             float vorticity = R - L - T + B;
             gl_FragColor = vec4(0.5 * vorticity, 0.0, 0.0, 1.0);
         }
-      `
+      `,
+      []
     );
 
     const vorticityShader = compileShader(
@@ -501,7 +507,8 @@ function SplashCursor({
             velocity = min(max(velocity, -1000.0), 1000.0);
             gl_FragColor = vec4(velocity, 0.0, 1.0);
         }
-      `
+      `,
+      []
     );
 
     const pressureShader = compileShader(
@@ -527,7 +534,8 @@ function SplashCursor({
             float pressure = (L + R + B + T - divergence) * 0.25;
             gl_FragColor = vec4(pressure, 0.0, 0.0, 1.0);
         }
-      `
+      `,
+      []
     );
 
     const gradientSubtractShader = compileShader(
@@ -552,7 +560,8 @@ function SplashCursor({
             velocity.xy -= vec2(R - L, T - B);
             gl_FragColor = vec4(velocity, 0.0, 1.0);
         }
-      `
+      `,
+      []
     );
 
     const blit = (() => {
