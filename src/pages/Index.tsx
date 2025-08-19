@@ -5,7 +5,13 @@ import { Dashboard } from '@/components/Dashboard';
 import { ContactForm } from '@/components/ContactForm';
 import { PricingSection } from '@/components/PricingSection';
 import { SplashCursor } from '@/components/SplashCursor';
-import { MobileNav } from '@/components/MobileNav';
+import { Navigation } from '@/components/Navigation';
+import { TestimonialsSection } from '@/components/TestimonialsSection';
+import { AboutSection } from '@/components/AboutSection';
+import { SecuritySection } from '@/components/SecuritySection';
+import { FeaturesSection } from '@/components/FeaturesSection';
+import { ROICalculator } from '@/components/ROICalculator';
+import { Footer } from '@/components/Footer';
 import { useAuth } from '@/hooks/useAuth';
 import { Link } from 'react-router-dom';
 import { 
@@ -18,19 +24,11 @@ import {
   CheckCircle,
   DollarSign,
   Activity,
-  FileText,
-  Lock,
-  BarChart3,
-  Users,
-  Smartphone
+  Users
 } from 'lucide-react';
 
 const Index = () => {
-  const { user, signOut } = useAuth();
-
-  const handleSignOut = async () => {
-    await signOut();
-  };
+  const { user } = useAuth();
 
   // If user is authenticated, show dashboard
   if (user) {
@@ -41,58 +39,9 @@ const Index = () => {
     <div className="relative">
       <SplashCursor />
       <div className="relative z-10">
-    <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-light rounded-xl flex items-center justify-center">
-                <Activity className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <span className="text-2xl font-bold font-heading text-foreground">HealthAI</span>
-            </div>
-            
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#solutions" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Solutions</a>
-              <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Pricing</a>
-              <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Contact</a>
-            </div>
-            
-            <div className="flex items-center gap-4">
-              {user ? (
-                <>
-                  <span className="text-sm text-muted-foreground hidden sm:inline">
-                    Welcome, {user.email}
-                  </span>
-                  <Button 
-                    variant="outline" 
-                    onClick={handleSignOut}
-                    className="border-border hover:bg-muted text-foreground hidden sm:flex"
-                  >
-                    Sign Out
-                  </Button>
-                </>
-              ) : (
-                <Link to="/auth">
-                  <Button 
-                    variant="outline" 
-                    className="border-border hover:bg-muted text-foreground hidden sm:flex"
-                  >
-                    Sign In
-                  </Button>
-                </Link>
-              )}
-              <Link to="/auth">
-                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6">
-                  Apply Now →
-                </Button>
-              </Link>
-              <MobileNav />
-            </div>
-          </div>
-        </div>
-      </nav>
+        <div className="min-h-screen bg-background">
+          {/* Navigation */}
+          <Navigation />
 
       {/* Hero Section */}
       <section className="relative py-24 px-6 overflow-hidden">
@@ -618,8 +567,23 @@ const Index = () => {
 
       {/* Contact Form */}
       <ContactForm />
+          {/* New Sections */}
+          <AboutSection />
+          <FeaturesSection />
+          <SecuritySection />
+          <TestimonialsSection />
+          <ROICalculator />
+          
+          {/* Pricing Section */}
+          <PricingSection />
+          
+          {/* Contact Form */}
+          <ContactForm />
+          
+          {/* Footer */}
+          <Footer />
+        </div>
       </div>
-    </div>
     </div>
   );
 };
