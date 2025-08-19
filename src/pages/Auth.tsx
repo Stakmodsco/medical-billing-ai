@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Activity, Mail, Lock, Building, UserCircle } from 'lucide-react';
+import { Activity, Mail, Lock, Building, UserCircle, ArrowLeft } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 
@@ -83,6 +83,16 @@ const Auth = () => {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-6">
       <div className="w-full max-w-md">
+        {/* Back Button */}
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate('/')}
+          className="mb-6 text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Home
+        </Button>
+        
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
           <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary-light rounded-xl flex items-center justify-center">
