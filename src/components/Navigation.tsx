@@ -13,11 +13,11 @@ export const Navigation = () => {
   };
 
   const navigationLinks = [
-    { href: '#solutions', label: 'Solutions' },
-    { href: '#features', label: 'Features' },
-    { href: '#pricing', label: 'Pricing' },
-    { href: '#testimonials', label: 'Testimonials' },
-    { href: '#contact', label: 'Contact' }
+    { href: '/features', label: 'Features' },
+    { href: '/pricing', label: 'Pricing' },
+    { href: '/security', label: 'Security' },
+    { href: '/about', label: 'About' },
+    { href: '/contact', label: 'Contact' }
   ];
 
   return (
@@ -35,13 +35,13 @@ export const Navigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
             {navigationLinks.map((link) => (
-              <a 
+              <Link 
                 key={link.href}
-                href={link.href} 
+                to={link.href} 
                 className="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </div>
           
@@ -93,14 +93,14 @@ export const Navigation = () => {
           <div className="lg:hidden mt-4 py-4 border-t border-border">
             <div className="flex flex-col gap-4">
               {navigationLinks.map((link) => (
-                <a 
+                <Link 
                   key={link.href}
-                  href={link.href} 
+                  to={link.href} 
                   className="text-muted-foreground hover:text-foreground transition-colors py-2"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
               {user && (
                 <Button 

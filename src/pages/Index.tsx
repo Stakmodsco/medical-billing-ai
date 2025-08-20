@@ -503,12 +503,16 @@ const Index = () => {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8">
-              Get Enterprise Demo
-            </Button>
-            <Button variant="outline" size="lg" className="border-primary text-primary hover:bg-primary/10">
-              Download ROI Calculator
-            </Button>
+            <Link to="/contact">
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8">
+                Get Enterprise Demo
+              </Button>
+            </Link>
+            <Link to="/pricing">
+              <Button variant="outline" size="lg" className="border-primary text-primary hover:bg-primary/10">
+                Download ROI Calculator
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -565,11 +569,19 @@ const Index = () => {
         </div>
       </footer>
 
-      {/* New Sections */}
-      <AboutSection />
+      {/* Features Section */}
       <FeaturesSection />
+      
+      {/* Security Section */}
       <SecuritySection />
+      
+      {/* Testimonials Section */}
       <TestimonialsSection />
+      
+      {/* About Section */}
+      <AboutSection />
+      
+      {/* ROI Calculator */}
       <ROICalculator />
       
       {/* Pricing Section */}
