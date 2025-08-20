@@ -24,7 +24,10 @@ import {
   CheckCircle,
   DollarSign,
   Activity,
-  Users
+  Users,
+  BarChart3,
+  Smartphone,
+  Lock
 } from 'lucide-react';
 
 const Index = () => {
