@@ -1192,40 +1192,33 @@ function SplashCursor({
       return hash;
     }
 
-    // Track scroll position instead of mouse
-    let lastScrollX = window.scrollX;
-    let lastScrollY = window.scrollY;
-    let hasStarted = false;
-
-    window.addEventListener("scroll", () => {
+    window.addEventListener("mousedown", (e) => {
       let pointer = pointers[0];
-      let scrollX = window.scrollX;
-      let scrollY = window.scrollY;
-      
-      // Convert scroll position to canvas coordinates
-      // Use scroll position relative to viewport width for horizontal movement
-      let posX = scaleByPixelRatio((scrollX / (document.body.scrollWidth - window.innerWidth)) * window.innerWidth);
-      let posY = scaleByPixelRatio(window.innerHeight / 2); // Keep vertical position centered
-      
-      if (!hasStarted) {
+      let posX = scaleByPixelRatio(e.clientX);
+      let posY = scaleByPixelRatio(e.clientY);
+      updatePointerDownData(pointer, -1, posX, posY);
+      clickSplat(pointer);
+    });
+
+    document.body.addEventListener(
+      "mousemove",
+      function handleFirstMouseMove(e) {
+        let pointer = pointers[0];
+        let posX = scaleByPixelRatio(e.clientX);
+        let posY = scaleByPixelRatio(e.clientY);
+        let color = generateColor();
         updateFrame(); // start animation loop
-        hasStarted = true;
-        updatePointerDownData(pointer, -1, posX, posY);
+        updatePointerMoveData(pointer, posX, posY, color);
+        document.body.removeEventListener("mousemove", handleFirstMouseMove);
       }
-      
-      let color = generateColor();
+    );
+
+    window.addEventListener("mousemove", (e) => {
+      let pointer = pointers[0];
+      let posX = scaleByPixelRatio(e.clientX);
+      let posY = scaleByPixelRatio(e.clientY);
+      let color = pointer.color;
       updatePointerMoveData(pointer, posX, posY, color);
-      
-      // Create splats based on scroll velocity
-      let scrollVelocityX = Math.abs(scrollX - lastScrollX);
-      let scrollVelocityY = Math.abs(scrollY - lastScrollY);
-      
-      if (scrollVelocityX > 5 || scrollVelocityY > 5) {
-        clickSplat(pointer);
-      }
-      
-      lastScrollX = scrollX;
-      lastScrollY = scrollY;
     });
 
     document.body.addEventListener(
