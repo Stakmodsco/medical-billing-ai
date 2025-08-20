@@ -20,16 +20,16 @@ export const StatsCard = ({
 }: StatsCardProps) => {
   const variantStyles = {
     default: 'from-card to-muted border-border',
-    success: 'from-success/10 to-success/20 border-success/30',
+    success: 'from-success to-success/30 border-success/30',
     warning: 'from-warning/10 to-warning/20 border-warning/30',
-    primary: 'from-primary/10 to-primary-light/20 border-primary/30'
+    primary: 'from-success to-success/30 border-success/30'
   };
 
   const textStyles = {
     default: 'text-foreground',
-    success: 'text-success',
+    success: 'text-black',
     warning: 'text-warning',
-    primary: 'text-primary'
+    primary: 'text-black'
   };
 
   return (
