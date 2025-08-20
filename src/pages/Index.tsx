@@ -346,7 +346,7 @@ const Index = () => {
       </section>
 
       {/* Fortune 500 Capabilities */}
-      <section id="capabilities" className="py-20 px-4 bg-primary text-primary-foreground">
+      <section id="capabilities" className="py-20 px-4 bg-success text-success-foreground">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold font-heading mb-4">FORTUNE 500 CAPABILITIES</h2>
