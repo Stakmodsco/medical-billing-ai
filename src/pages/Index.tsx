@@ -1,3 +1,4 @@
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { StatsCard } from '@/components/StatsCard';
 import { FeatureCard } from '@/components/FeatureCard';
@@ -516,58 +517,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="py-12 px-4 bg-muted border-t border-border">
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-primary to-primary-light rounded-lg flex items-center justify-center">
-                  <Activity className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-lg font-bold font-heading text-primary">HealthAI Revenue</span>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Revolutionary AI-powered healthcare revenue intelligence for Fortune 500 hospitals.
-              </p>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold mb-3">Platform</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-primary transition-colors">AI Automation</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Revenue Intelligence</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Fraud Prevention</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Compliance</a></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold mb-3">Enterprise</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-primary transition-colors">Request Demo</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">ROI Calculator</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Case Studies</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Enterprise Support</a></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold mb-3">Contact</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>Enterprise Sales: (555) 123-4567</li>
-                <li>support@healthai-revenue.com</li>
-                <li>24/7 Enterprise Support</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
-            <p>&copy; 2024 HealthAI Revenue Intelligence Platform. All rights reserved. SOC 2 Compliant.</p>
-          </div>
-        </div>
-      </footer>
 
       {/* Features Section */}
       <FeaturesSection />
