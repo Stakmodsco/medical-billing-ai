@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Calculator, TrendingUp, DollarSign, Target } from 'lucide-react';
 
 export const ROICalculator = () => {
+  const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     monthlyRevenue: '',
     claimsPerMonth: '',
@@ -202,7 +204,10 @@ export const ROICalculator = () => {
                     <p className="text-sm text-muted-foreground mb-4">
                       Ready to achieve these results? Get started with HealthAI today.
                     </p>
-                    <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+                    <Button 
+                      onClick={() => navigate('/contact')}
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                    >
                       Schedule a Demo
                     </Button>
                   </div>
