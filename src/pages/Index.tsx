@@ -518,29 +518,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Features Section */}
-      <FeaturesSection />
-      
-      {/* Security Section */}
-      <SecuritySection />
-      
-      {/* Testimonials Section */}
-      <TestimonialsSection />
-      
-      {/* About Section */}
-      <AboutSection />
-      
-      {/* ROI Calculator */}
-      <ROICalculator />
-      
-      {/* Pricing Section */}
-      <PricingSection />
-      
-      {/* Contact Form */}
-      <ContactForm />
-      
-      {/* Footer */}
-      <Footer />
         </div>
       </div>
     </div>
