@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 import { Mail, Phone, Building, MessageSquare } from 'lucide-react';
 
 export const ContactForm = () => {
@@ -19,30 +20,65 @@ export const ContactForm = () => {
     inquiryType: ''
   });
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const { toast } = useToast();
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Invalid email format';
+    }
+    if (!formData.message.trim()) newErrors.message = 'Message is required';
+    if (formData.phone && !/^[\+]?[1-9][\d]{0,15}$/.test(formData.phone.replace(/[\s\-\(\)]/g, ''))) {
+      newErrors.phone = 'Invalid phone format';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) return;
+    
     setLoading(true);
+    setErrors({});
 
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      const { error } = await supabase.functions.invoke('submit-contact', {
+        body: formData
+      });
 
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for your inquiry. Our team will contact you within 24 hours.",
-    });
+      if (error) throw error;
 
-    setFormData({
-      name: '',
-      email: '',
-      company: '',
-      phone: '',
-      subject: '',
-      message: '',
-      inquiryType: ''
-    });
-    setLoading(false);
+      toast({
+        title: "Message Sent!",
+        description: "Thank you for your inquiry. Our team will contact you within 24 hours.",
+      });
+
+      setFormData({
+        name: '',
+        email: '',
+        company: '',
+        phone: '',
+        subject: '',
+        message: '',
+        inquiryType: ''
+      });
+    } catch (error: any) {
+      console.error('Form submission error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (field: string, value: string) => {
@@ -131,8 +167,10 @@ export const ContactForm = () => {
                       value={formData.name}
                       onChange={(e) => handleChange('name', e.target.value)}
                       placeholder="Dr. John Smith"
+                      className={errors.name ? 'border-destructive' : ''}
                       required
                     />
+                    {errors.name && <p className="text-sm text-destructive mt-1">{errors.name}</p>}
                   </div>
                   <div>
                     <Label htmlFor="email">Email Address *</Label>
@@ -142,8 +180,10 @@ export const ContactForm = () => {
                       value={formData.email}
                       onChange={(e) => handleChange('email', e.target.value)}
                       placeholder="john@hospital.com"
+                      className={errors.email ? 'border-destructive' : ''}
                       required
                     />
+                    {errors.email && <p className="text-sm text-destructive mt-1">{errors.email}</p>}
                   </div>
                 </div>
 
@@ -166,7 +206,9 @@ export const ContactForm = () => {
                       value={formData.phone}
                       onChange={(e) => handleChange('phone', e.target.value)}
                       placeholder="+1 (555) 123-4567"
+                      className={errors.phone ? 'border-destructive' : ''}
                     />
+                    {errors.phone && <p className="text-sm text-destructive mt-1">{errors.phone}</p>}
                   </div>
                 </div>
 
@@ -205,9 +247,10 @@ export const ContactForm = () => {
                     value={formData.message}
                     onChange={(e) => handleChange('message', e.target.value)}
                     placeholder="Tell us about your healthcare revenue management needs..."
-                    className="min-h-[120px]"
+                    className={`min-h-[120px] ${errors.message ? 'border-destructive' : ''}`}
                     required
                   />
+                  {errors.message && <p className="text-sm text-destructive mt-1">{errors.message}</p>}
                 </div>
 
                 <Button 
