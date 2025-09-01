@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { StatsCard } from '@/components/StatsCard';
 import { useToast } from '@/components/ui/use-toast';
+import { ProcessClaimsPanel } from '@/components/ProcessClaimsPanel';
+import { RevenueAnalyticsPanel } from '@/components/RevenueAnalyticsPanel';
+import { SettingsPanel } from '@/components/SettingsPanel';
 import { 
   Activity, 
   TrendingUp, 
@@ -18,6 +22,7 @@ import {
 export const Dashboard = () => {
   const { user, signOut } = useAuth();
   const { toast } = useToast();
+  const [activePanel, setActivePanel] = useState<'claims' | 'analytics' | 'settings' | null>(null);
 
   const handleNotifications = () => {
     toast({
@@ -27,24 +32,15 @@ export const Dashboard = () => {
   };
 
   const handleSettings = () => {
-    toast({
-      title: "Settings",
-      description: "Settings panel coming soon!",
-    });
+    setActivePanel('settings');
   };
 
   const handleStartProcessing = () => {
-    toast({
-      title: "Processing Claims",
-      description: "Claims processing feature is being initialized...",
-    });
+    setActivePanel('claims');
   };
 
   const handleViewAnalytics = () => {
-    toast({
-      title: "Revenue Analytics",
-      description: "Analytics dashboard coming soon!",
-    });
+    setActivePanel('analytics');
   };
 
   const handleManagePatients = () => {
@@ -216,6 +212,17 @@ export const Dashboard = () => {
           </CardContent>
         </Card>
       </main>
+
+      {/* Panels */}
+      {activePanel === 'claims' && (
+        <ProcessClaimsPanel onClose={() => setActivePanel(null)} />
+      )}
+      {activePanel === 'analytics' && (
+        <RevenueAnalyticsPanel onClose={() => setActivePanel(null)} />
+      )}
+      {activePanel === 'settings' && (
+        <SettingsPanel onClose={() => setActivePanel(null)} />
+      )}
     </div>
   );
 };
