@@ -2,6 +2,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { StatsCard } from '@/components/StatsCard';
+import { useToast } from '@/components/ui/use-toast';
 import { 
   Activity, 
   TrendingUp, 
@@ -16,6 +17,42 @@ import {
 
 export const Dashboard = () => {
   const { user, signOut } = useAuth();
+  const { toast } = useToast();
+
+  const handleNotifications = () => {
+    toast({
+      title: "Notifications",
+      description: "No new notifications at this time.",
+    });
+  };
+
+  const handleSettings = () => {
+    toast({
+      title: "Settings",
+      description: "Settings panel coming soon!",
+    });
+  };
+
+  const handleStartProcessing = () => {
+    toast({
+      title: "Processing Claims",
+      description: "Claims processing feature is being initialized...",
+    });
+  };
+
+  const handleViewAnalytics = () => {
+    toast({
+      title: "Revenue Analytics",
+      description: "Analytics dashboard coming soon!",
+    });
+  };
+
+  const handleManagePatients = () => {
+    toast({
+      title: "Patient Management",
+      description: "Patient management system coming soon!",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -34,11 +71,11 @@ export const Dashboard = () => {
             </div>
             
             <div className="flex items-center gap-4">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={handleNotifications}>
                 <Bell className="w-4 h-4 mr-2" />
                 Notifications
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={handleSettings}>
                 <Settings className="w-4 h-4 mr-2" />
                 Settings
               </Button>
@@ -98,7 +135,7 @@ export const Dashboard = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className="w-full bg-primary hover:bg-primary/90">
+              <Button className="w-full bg-primary hover:bg-primary/90" onClick={handleStartProcessing}>
                 Start Processing
               </Button>
             </CardContent>
@@ -115,7 +152,7 @@ export const Dashboard = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full" onClick={handleViewAnalytics}>
                 View Analytics
               </Button>
             </CardContent>
@@ -132,7 +169,7 @@ export const Dashboard = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full" onClick={handleManagePatients}>
                 Manage Patients
               </Button>
             </CardContent>
