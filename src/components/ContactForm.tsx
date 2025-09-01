@@ -49,11 +49,18 @@ export const ContactForm = () => {
     setErrors({});
 
     try {
-      const { error } = await supabase.functions.invoke('submit-contact', {
+      console.log('Submitting contact form:', formData);
+      
+      const { data, error } = await supabase.functions.invoke('submit-contact', {
         body: formData
       });
 
-      if (error) throw error;
+      console.log('Response:', { data, error });
+
+      if (error) {
+        console.error('Supabase function error:', error);
+        throw error;
+      }
 
       toast({
         title: "Message Sent!",
@@ -71,9 +78,10 @@ export const ContactForm = () => {
       });
     } catch (error: any) {
       console.error('Form submission error:', error);
+      const errorMessage = error?.message || error?.details || 'Failed to send message. Please try again.';
       toast({
         title: "Error",
-        description: "Failed to send message. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
