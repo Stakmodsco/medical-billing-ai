@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { StatsCard } from '@/components/StatsCard';
 import { useToast } from '@/components/ui/use-toast';
+import * as XLSX from 'xlsx';
 import { 
   TrendingUp, 
   TrendingDown,
@@ -120,34 +121,90 @@ export const RevenueAnalyticsPanel = ({ onClose }: RevenueAnalyticsPanelProps) =
   };
 
   const handleExport = () => {
-    const exportData = {
-      timeRange,
-      data: currentData.data,
-      summary: {
-        totalRevenue: currentData.totalRevenue,
-        totalClaims: currentData.totalClaims,
-        averageRate: currentData.avgRate
-      },
-      topPerformers,
-      recentPayments,
-      exportedAt: new Date().toISOString()
-    };
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new();
+    
+    // Summary Sheet
+    const summaryData = [
+      ['Revenue Analytics Report'],
+      ['Generated on:', new Date().toLocaleDateString()],
+      ['Time Period:', timeRange === 'week' ? 'This Week' : timeRange === 'month' ? 'This Month' : timeRange === 'quarter' ? 'This Quarter' : 'This Year'],
+      [''],
+      ['KEY METRICS'],
+      ['Total Revenue', `$${currentData.totalRevenue.toLocaleString()}`],
+      ['Total Claims Processed', currentData.totalClaims],
+      ['Average Collection Rate', `${currentData.avgRate}%`],
+      ['Average Payment Time', '3.2 days'],
+      [''],
+      ['GROWTH INDICATORS'],
+      ['Month-over-Month Growth', '+12.3%'],
+      ['Average Claim Value', '$315'],
+      ['Denial Rate', '5.7%']
+    ];
+    const summarySheet = XLSX.utils.aoa_to_sheet(summaryData);
+    XLSX.utils.book_append_sheet(workbook, summarySheet, 'Summary');
 
-    const blob = new Blob([JSON.stringify(exportData, null, 2)], { 
-      type: 'application/json' 
+    // Revenue Trends Sheet
+    const trendsData = [
+      ['Period', 'Revenue ($)', 'Claims Processed', 'Collection Rate (%)'],
+      ...currentData.data.map(item => [
+        item.period,
+        item.revenue,
+        item.claims,
+        item.rate
+      ])
+    ];
+    const trendsSheet = XLSX.utils.aoa_to_sheet(trendsData);
+    XLSX.utils.book_append_sheet(workbook, trendsSheet, 'Revenue Trends');
+
+    // Top Performers Sheet
+    const performersData = [
+      ['Medical Specialty', 'Revenue ($)', 'Percentage (%)', 'Trend'],
+      ...topPerformers.map(category => [
+        category.category,
+        category.revenue,
+        category.percentage,
+        category.trend === 'up' ? '↗ Increasing' : '↘ Decreasing'
+      ])
+    ];
+    const performersSheet = XLSX.utils.aoa_to_sheet(performersData);
+    XLSX.utils.book_append_sheet(workbook, performersSheet, 'Top Performers');
+
+    // Recent Payments Sheet
+    const paymentsData = [
+      ['Payment ID', 'Insurance Provider', 'Amount ($)', 'Date', 'Status'],
+      ...recentPayments.map(payment => [
+        payment.id,
+        payment.payer,
+        payment.amount,
+        payment.date,
+        payment.status
+      ])
+    ];
+    const paymentsSheet = XLSX.utils.aoa_to_sheet(paymentsData);
+    XLSX.utils.book_append_sheet(workbook, paymentsSheet, 'Recent Payments');
+
+    // Style the summary sheet
+    if (summarySheet['!cols']) {
+      summarySheet['!cols'] = [{ wch: 25 }, { wch: 20 }];
+    } else {
+      summarySheet['!cols'] = [{ wch: 25 }, { wch: 20 }];
+    }
+
+    // Style other sheets
+    [trendsSheet, performersSheet, paymentsSheet].forEach(sheet => {
+      if (!sheet['!cols']) {
+        sheet['!cols'] = [{ wch: 20 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 }];
+      }
     });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `revenue-analytics-${timeRange}-${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+
+    // Export the file
+    const fileName = `Revenue-Analytics-${timeRange}-${new Date().toISOString().split('T')[0]}.xlsx`;
+    XLSX.writeFile(workbook, fileName);
 
     toast({
-      title: "Export Complete",
-      description: `Revenue analytics data for ${timeRange} has been downloaded.`,
+      title: "Excel Export Complete",
+      description: `Revenue analytics report for ${timeRange} has been downloaded as an Excel file.`,
     });
   };
 
