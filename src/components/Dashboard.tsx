@@ -7,6 +7,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { ProcessClaimsPanel } from '@/components/ProcessClaimsPanel';
 import { RevenueAnalyticsPanel } from '@/components/RevenueAnalyticsPanel';
 import { SettingsPanel } from '@/components/SettingsPanel';
+import { PatientManagementPanel } from '@/components/PatientManagementPanel';
 import { 
   Activity, 
   TrendingUp, 
@@ -22,7 +23,7 @@ import {
 export const Dashboard = () => {
   const { user, signOut } = useAuth();
   const { toast } = useToast();
-  const [activePanel, setActivePanel] = useState<'claims' | 'analytics' | 'settings' | null>(null);
+  const [activePanel, setActivePanel] = useState<'claims' | 'analytics' | 'settings' | 'patients' | null>(null);
 
   const handleNotifications = () => {
     toast({
@@ -44,10 +45,7 @@ export const Dashboard = () => {
   };
 
   const handleManagePatients = () => {
-    toast({
-      title: "Patient Management",
-      description: "Patient management system coming soon!",
-    });
+    setActivePanel('patients');
   };
 
   return (
@@ -222,6 +220,9 @@ export const Dashboard = () => {
       )}
       {activePanel === 'settings' && (
         <SettingsPanel onClose={() => setActivePanel(null)} />
+      )}
+      {activePanel === 'patients' && (
+        <PatientManagementPanel onClose={() => setActivePanel(null)} />
       )}
     </div>
   );

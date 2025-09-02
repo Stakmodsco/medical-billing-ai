@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { StatsCard } from '@/components/StatsCard';
+import { useToast } from '@/components/ui/use-toast';
 import { 
   TrendingUp, 
   TrendingDown,
@@ -24,15 +25,65 @@ interface RevenueAnalyticsPanelProps {
 
 export const RevenueAnalyticsPanel = ({ onClose }: RevenueAnalyticsPanelProps) => {
   const [timeRange, setTimeRange] = useState('month');
+  const { toast } = useToast();
 
-  const monthlyData = [
-    { month: 'Jan', revenue: 45000, claims: 120, rate: 94.2 },
-    { month: 'Feb', revenue: 52000, claims: 140, rate: 96.1 },
-    { month: 'Mar', revenue: 48000, claims: 130, rate: 95.4 },
-    { month: 'Apr', revenue: 59000, claims: 160, rate: 97.3 },
-    { month: 'May', revenue: 61000, claims: 170, rate: 96.8 },
-    { month: 'Jun', revenue: 47250, claims: 150, rate: 94.3 },
-  ];
+  // Data generators based on time range
+  const getDataForTimeRange = () => {
+    switch (timeRange) {
+      case 'week':
+        return {
+          data: [
+            { period: 'Mon', revenue: 6500, claims: 18, rate: 95.1 },
+            { period: 'Tue', revenue: 7200, claims: 22, rate: 96.3 },
+            { period: 'Wed', revenue: 8100, claims: 25, rate: 94.8 },
+            { period: 'Thu', revenue: 7800, claims: 24, rate: 97.1 },
+            { period: 'Fri', revenue: 9200, claims: 28, rate: 95.7 },
+            { period: 'Sat', revenue: 5800, claims: 16, rate: 93.2 },
+            { period: 'Sun', revenue: 3650, claims: 12, rate: 92.8 },
+          ],
+          totalRevenue: 48250,
+          totalClaims: 145,
+          avgRate: 95.0
+        };
+      case 'quarter':
+        return {
+          data: [
+            { period: 'Q1', revenue: 145000, claims: 390, rate: 95.2 },
+            { period: 'Q2', revenue: 167250, claims: 480, rate: 96.1 },
+            { period: 'Q3', revenue: 153800, claims: 420, rate: 94.8 },
+          ],
+          totalRevenue: 466050,
+          totalClaims: 1290,
+          avgRate: 95.4
+        };
+      case 'year':
+        return {
+          data: [
+            { period: '2023', revenue: 580000, claims: 1650, rate: 94.8 },
+            { period: '2024', revenue: 647250, claims: 1820, rate: 95.6 },
+          ],
+          totalRevenue: 647250,
+          totalClaims: 1820,
+          avgRate: 95.6
+        };
+      default: // month
+        return {
+          data: [
+            { period: 'Jan', revenue: 45000, claims: 120, rate: 94.2 },
+            { period: 'Feb', revenue: 52000, claims: 140, rate: 96.1 },
+            { period: 'Mar', revenue: 48000, claims: 130, rate: 95.4 },
+            { period: 'Apr', revenue: 59000, claims: 160, rate: 97.3 },
+            { period: 'May', revenue: 61000, claims: 170, rate: 96.8 },
+            { period: 'Jun', revenue: 47250, claims: 150, rate: 94.3 },
+          ],
+          totalRevenue: 47250,
+          totalClaims: 150,
+          avgRate: 94.3
+        };
+    }
+  };
+
+  const currentData = getDataForTimeRange();
 
   const topPerformers = [
     { category: 'Cardiology', revenue: 125000, percentage: 25.4, trend: 'up' },
@@ -68,6 +119,38 @@ export const RevenueAnalyticsPanel = ({ onClose }: RevenueAnalyticsPanelProps) =
     }
   };
 
+  const handleExport = () => {
+    const exportData = {
+      timeRange,
+      data: currentData.data,
+      summary: {
+        totalRevenue: currentData.totalRevenue,
+        totalClaims: currentData.totalClaims,
+        averageRate: currentData.avgRate
+      },
+      topPerformers,
+      recentPayments,
+      exportedAt: new Date().toISOString()
+    };
+
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { 
+      type: 'application/json' 
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `revenue-analytics-${timeRange}-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    toast({
+      title: "Export Complete",
+      description: `Revenue analytics data for ${timeRange} has been downloaded.`,
+    });
+  };
+
   return (
     <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-card border border-border rounded-lg shadow-lg w-full max-w-6xl max-h-[90vh] overflow-auto">
@@ -93,7 +176,7 @@ export const RevenueAnalyticsPanel = ({ onClose }: RevenueAnalyticsPanelProps) =
                 <SelectItem value="year">This Year</SelectItem>
               </SelectContent>
             </Select>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={handleExport}>
               <Download className="w-4 h-4 mr-2" />
               Export
             </Button>
@@ -116,23 +199,23 @@ export const RevenueAnalyticsPanel = ({ onClose }: RevenueAnalyticsPanelProps) =
               {/* Key Metrics */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <StatsCard 
-                  value="$47,250" 
+                  value={`$${currentData.totalRevenue.toLocaleString()}`}
                   label="Total Revenue"
-                  description="This month"
+                  description={`${timeRange === 'week' ? 'This week' : timeRange === 'month' ? 'This month' : timeRange === 'quarter' ? 'This quarter' : 'This year'}`}
                   icon={<DollarSign className="w-5 h-5" />}
                   variant="success"
                 />
                 <StatsCard 
-                  value="94.3%" 
+                  value={`${currentData.avgRate}%`}
                   label="Collection Rate"
-                  description="+2.1% vs last month"
+                  description={`${timeRange === 'week' ? 'Weekly avg' : timeRange === 'month' ? '+2.1% vs last month' : timeRange === 'quarter' ? 'Quarterly avg' : 'Annual avg'}`}
                   icon={<Target className="w-5 h-5" />}
                   variant="primary"
                 />
                 <StatsCard 
-                  value="150" 
+                  value={currentData.totalClaims.toString()}
                   label="Claims Processed"
-                  description="This month"
+                  description={`${timeRange === 'week' ? 'This week' : timeRange === 'month' ? 'This month' : timeRange === 'quarter' ? 'This quarter' : 'This year'}`}
                   icon={<FileText className="w-5 h-5" />}
                   variant="default"
                 />
@@ -152,7 +235,12 @@ export const RevenueAnalyticsPanel = ({ onClose }: RevenueAnalyticsPanelProps) =
                     <BarChart3 className="w-5 h-5" />
                     Revenue Trend
                   </CardTitle>
-                  <CardDescription>Monthly revenue performance over the last 6 months</CardDescription>
+                  <CardDescription>
+                    {timeRange === 'week' ? 'Weekly revenue performance for the current week' :
+                     timeRange === 'month' ? 'Monthly revenue performance over the last 6 months' :
+                     timeRange === 'quarter' ? 'Quarterly revenue performance' :
+                     'Annual revenue performance'}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="h-64 bg-muted/20 rounded-lg flex items-center justify-center">
@@ -175,10 +263,10 @@ export const RevenueAnalyticsPanel = ({ onClose }: RevenueAnalyticsPanelProps) =
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {monthlyData.map((data) => (
-                        <div key={data.month} className="flex items-center justify-between p-3 bg-muted/20 rounded-lg">
+                      {currentData.data.map((data) => (
+                        <div key={data.period} className="flex items-center justify-between p-3 bg-muted/20 rounded-lg">
                           <div>
-                            <p className="font-medium">{data.month}</p>
+                            <p className="font-medium">{data.period}</p>
                             <p className="text-sm text-muted-foreground">{data.claims} claims</p>
                           </div>
                           <div className="text-right">
