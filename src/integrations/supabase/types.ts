@@ -14,6 +14,139 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_logs: {
+        Row: {
+          action: string
+          id: string
+          ip_address: unknown | null
+          new_values: Json | null
+          old_values: Json | null
+          resource_id: string | null
+          resource_type: string
+          timestamp: string
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          id?: string
+          ip_address?: unknown | null
+          new_values?: Json | null
+          old_values?: Json | null
+          resource_id?: string | null
+          resource_type: string
+          timestamp?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          id?: string
+          ip_address?: unknown | null
+          new_values?: Json | null
+          old_values?: Json | null
+          resource_id?: string | null
+          resource_type?: string
+          timestamp?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      claims: {
+        Row: {
+          approved_amount: number | null
+          claim_number: string
+          claim_type: string
+          created_at: string
+          denial_reason: string | null
+          diagnosis_codes: string[] | null
+          id: string
+          insurance_company_id: string
+          metadata: Json | null
+          notes: string | null
+          paid_amount: number | null
+          patient_id: string
+          procedure_codes: string[] | null
+          provider_id: string
+          service_date: string
+          status: string | null
+          submission_date: string | null
+          submitted_amount: number
+          total_amount: number
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          approved_amount?: number | null
+          claim_number: string
+          claim_type: string
+          created_at?: string
+          denial_reason?: string | null
+          diagnosis_codes?: string[] | null
+          id?: string
+          insurance_company_id: string
+          metadata?: Json | null
+          notes?: string | null
+          paid_amount?: number | null
+          patient_id: string
+          procedure_codes?: string[] | null
+          provider_id: string
+          service_date: string
+          status?: string | null
+          submission_date?: string | null
+          submitted_amount: number
+          total_amount: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          approved_amount?: number | null
+          claim_number?: string
+          claim_type?: string
+          created_at?: string
+          denial_reason?: string | null
+          diagnosis_codes?: string[] | null
+          id?: string
+          insurance_company_id?: string
+          metadata?: Json | null
+          notes?: string | null
+          paid_amount?: number | null
+          patient_id?: string
+          procedure_codes?: string[] | null
+          provider_id?: string
+          service_date?: string
+          status?: string | null
+          submission_date?: string | null
+          submitted_amount?: number
+          total_amount?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "claims_insurance_company_id_fkey"
+            columns: ["insurance_company_id"]
+            isOneToOne: false
+            referencedRelation: "insurance_companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "claims_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "claims_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contact_inquiries: {
         Row: {
           company: string | null
@@ -56,6 +189,237 @@ export type Database = {
         }
         Relationships: []
       }
+      insurance_companies: {
+        Row: {
+          claim_submission_info: Json | null
+          code: string
+          contact_info: Json | null
+          created_at: string
+          id: string
+          name: string
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          claim_submission_info?: Json | null
+          code: string
+          contact_info?: Json | null
+          created_at?: string
+          id?: string
+          name: string
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          claim_submission_info?: Json | null
+          code?: string
+          contact_info?: Json | null
+          created_at?: string
+          id?: string
+          name?: string
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      patients: {
+        Row: {
+          address: Json | null
+          created_at: string
+          date_of_birth: string
+          email: string | null
+          emergency_contact: Json | null
+          first_name: string
+          gender: string | null
+          id: string
+          insurance_primary: Json | null
+          insurance_secondary: Json | null
+          last_name: string
+          medical_record_number: string | null
+          patient_id: string
+          phone: string | null
+          status: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          address?: Json | null
+          created_at?: string
+          date_of_birth: string
+          email?: string | null
+          emergency_contact?: Json | null
+          first_name: string
+          gender?: string | null
+          id?: string
+          insurance_primary?: Json | null
+          insurance_secondary?: Json | null
+          last_name: string
+          medical_record_number?: string | null
+          patient_id: string
+          phone?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          address?: Json | null
+          created_at?: string
+          date_of_birth?: string
+          email?: string | null
+          emergency_contact?: Json | null
+          first_name?: string
+          gender?: string | null
+          id?: string
+          insurance_primary?: Json | null
+          insurance_secondary?: Json | null
+          last_name?: string
+          medical_record_number?: string | null
+          patient_id?: string
+          phone?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      payments: {
+        Row: {
+          amount: number
+          check_number: string | null
+          claim_id: string
+          created_at: string
+          id: string
+          payer_name: string
+          payment_date: string
+          payment_id: string
+          payment_method: string | null
+          remittance_advice: Json | null
+          status: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          amount: number
+          check_number?: string | null
+          claim_id: string
+          created_at?: string
+          id?: string
+          payer_name: string
+          payment_date: string
+          payment_id: string
+          payment_method?: string | null
+          remittance_advice?: Json | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number
+          check_number?: string | null
+          claim_id?: string
+          created_at?: string
+          id?: string
+          payer_name?: string
+          payment_date?: string
+          payment_id?: string
+          payment_method?: string | null
+          remittance_advice?: Json | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_claim_id_fkey"
+            columns: ["claim_id"]
+            isOneToOne: false
+            referencedRelation: "claims"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      prior_authorizations: {
+        Row: {
+          approval_criteria: string | null
+          authorization_number: string | null
+          created_at: string
+          diagnosis_codes: string[] | null
+          end_date: string | null
+          id: string
+          insurance_company_id: string
+          notes: string | null
+          patient_id: string
+          procedure_codes: string[] | null
+          provider_id: string
+          requested_date: string
+          service_type: string
+          start_date: string | null
+          status: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          approval_criteria?: string | null
+          authorization_number?: string | null
+          created_at?: string
+          diagnosis_codes?: string[] | null
+          end_date?: string | null
+          id?: string
+          insurance_company_id: string
+          notes?: string | null
+          patient_id: string
+          procedure_codes?: string[] | null
+          provider_id: string
+          requested_date: string
+          service_type: string
+          start_date?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          approval_criteria?: string | null
+          authorization_number?: string | null
+          created_at?: string
+          diagnosis_codes?: string[] | null
+          end_date?: string | null
+          id?: string
+          insurance_company_id?: string
+          notes?: string | null
+          patient_id?: string
+          procedure_codes?: string[] | null
+          provider_id?: string
+          requested_date?: string
+          service_type?: string
+          start_date?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prior_authorizations_insurance_company_id_fkey"
+            columns: ["insurance_company_id"]
+            isOneToOne: false
+            referencedRelation: "insurance_companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prior_authorizations_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prior_authorizations_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           company_name: string | null
@@ -83,6 +447,57 @@ export type Database = {
           role?: string | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      providers: {
+        Row: {
+          address: Json | null
+          created_at: string
+          credentials: string[] | null
+          email: string | null
+          id: string
+          license_number: string | null
+          name: string
+          npi_number: string | null
+          phone: string | null
+          provider_id: string
+          specialty: string | null
+          status: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          address?: Json | null
+          created_at?: string
+          credentials?: string[] | null
+          email?: string | null
+          id?: string
+          license_number?: string | null
+          name: string
+          npi_number?: string | null
+          phone?: string | null
+          provider_id: string
+          specialty?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          address?: Json | null
+          created_at?: string
+          credentials?: string[] | null
+          email?: string | null
+          id?: string
+          license_number?: string | null
+          name?: string
+          npi_number?: string | null
+          phone?: string | null
+          provider_id?: string
+          specialty?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
         }
         Relationships: []
       }

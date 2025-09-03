@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { useHealthcareData } from '@/hooks/useHealthcareData';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { StatsCard } from '@/components/StatsCard';
@@ -23,7 +24,10 @@ import {
 export const Dashboard = () => {
   const { user, signOut } = useAuth();
   const { toast } = useToast();
+  const { getDashboardMetrics, loading } = useHealthcareData();
   const [activePanel, setActivePanel] = useState<'claims' | 'analytics' | 'settings' | 'patients' | null>(null);
+  
+  const metrics = getDashboardMetrics();
 
   const handleNotifications = () => {
     toast({
@@ -87,28 +91,28 @@ export const Dashboard = () => {
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatsCard 
-            value="$47,250" 
+            value={loading ? "Loading..." : `$${metrics.totalRevenue.toLocaleString()}`}
             label="Total Revenue"
             description="This month"
             icon={<DollarSign className="w-5 h-5" />}
             variant="success"
           />
           <StatsCard 
-            value="94.3%" 
+            value={loading ? "Loading..." : `${metrics.processingRate}%`}
             label="Processing Rate"
             description="Automated"
             icon={<TrendingUp className="w-5 h-5" />}
             variant="primary"
           />
           <StatsCard 
-            value="1,478" 
+            value={loading ? "Loading..." : metrics.activePatients.toString()}
             label="Active Patients"
             description="Current month"
             icon={<Users className="w-5 h-5" />}
             variant="default"
           />
           <StatsCard 
-            value="340" 
+            value={loading ? "Loading..." : metrics.totalClaims.toString()}
             label="Claims Processed"
             description="Last 30 days"
             icon={<FileText className="w-5 h-5" />}
