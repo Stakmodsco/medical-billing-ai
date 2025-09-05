@@ -12,6 +12,8 @@ import { PatientManagementPanel } from '@/components/PatientManagementPanel';
 import { AIClaimProcessor } from '@/components/AIClaimProcessor';
 import { PriorAuthManager } from '@/components/PriorAuthManager';
 import { MedicalCodingAssistant } from '@/components/MedicalCodingAssistant';
+import { SecurityPanel } from '@/components/SecurityPanel';
+import { useRoleBasedAccess } from '@/hooks/useRoleBasedAccess';
 import { 
   Activity, 
   TrendingUp, 
@@ -21,14 +23,16 @@ import {
   Clock,
   Settings,
   Bell,
-  LogOut
+  LogOut,
+  Shield
 } from 'lucide-react';
 
 export const Dashboard = () => {
   const { user, signOut } = useAuth();
   const { toast } = useToast();
   const { getDashboardMetrics, loading } = useHealthcareData();
-  const [activePanel, setActivePanel] = useState<'claims' | 'analytics' | 'settings' | 'patients' | 'prior-auth' | 'coding' | null>(null);
+  const { canAccess } = useRoleBasedAccess();
+  const [activePanel, setActivePanel] = useState<'claims' | 'analytics' | 'settings' | 'patients' | 'prior-auth' | 'coding' | 'security' | null>(null);
   
   const metrics = getDashboardMetrics();
 
@@ -76,6 +80,12 @@ export const Dashboard = () => {
                 <Bell className="w-4 h-4 mr-2" />
                 Notifications
               </Button>
+              {canAccess('audit_logs') && (
+                <Button variant="outline" size="sm" onClick={() => setActivePanel('security')}>
+                  <Shield className="w-4 h-4 mr-2" />
+                  Security
+                </Button>
+              )}
               <Button variant="outline" size="sm" onClick={handleSettings}>
                 <Settings className="w-4 h-4 mr-2" />
                 Settings
@@ -269,6 +279,20 @@ export const Dashboard = () => {
       )}
       {activePanel === 'patients' && (
         <PatientManagementPanel onClose={() => setActivePanel(null)} />
+      )}
+      {activePanel === 'security' && (
+        <div className="fixed inset-0 bg-background z-50 overflow-auto">
+          <div className="p-6">
+            <Button
+              variant="outline"
+              onClick={() => setActivePanel(null)}
+              className="mb-4"
+            >
+              ← Back to Dashboard
+            </Button>
+            <SecurityPanel />
+          </div>
+        </div>
       )}
     </div>
   );
