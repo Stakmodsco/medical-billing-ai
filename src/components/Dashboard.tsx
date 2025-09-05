@@ -9,6 +9,9 @@ import { ProcessClaimsPanel } from '@/components/ProcessClaimsPanel';
 import { RevenueAnalyticsPanel } from '@/components/RevenueAnalyticsPanel';
 import { SettingsPanel } from '@/components/SettingsPanel';
 import { PatientManagementPanel } from '@/components/PatientManagementPanel';
+import { AIClaimProcessor } from '@/components/AIClaimProcessor';
+import { PriorAuthManager } from '@/components/PriorAuthManager';
+import { MedicalCodingAssistant } from '@/components/MedicalCodingAssistant';
 import { 
   Activity, 
   TrendingUp, 
@@ -25,7 +28,7 @@ export const Dashboard = () => {
   const { user, signOut } = useAuth();
   const { toast } = useToast();
   const { getDashboardMetrics, loading } = useHealthcareData();
-  const [activePanel, setActivePanel] = useState<'claims' | 'analytics' | 'settings' | 'patients' | null>(null);
+  const [activePanel, setActivePanel] = useState<'claims' | 'analytics' | 'settings' | 'patients' | 'prior-auth' | 'coding' | null>(null);
   
   const metrics = getDashboardMetrics();
 
@@ -217,7 +220,46 @@ export const Dashboard = () => {
 
       {/* Panels */}
       {activePanel === 'claims' && (
-        <ProcessClaimsPanel onClose={() => setActivePanel(null)} />
+        <div className="fixed inset-0 bg-background z-50 overflow-auto">
+          <div className="p-6">
+            <Button
+              variant="outline"
+              onClick={() => setActivePanel(null)}
+              className="mb-4"
+            >
+              ← Back to Dashboard
+            </Button>
+            <AIClaimProcessor />
+          </div>
+        </div>
+      )}
+      {activePanel === 'prior-auth' && (
+        <div className="fixed inset-0 bg-background z-50 overflow-auto">
+          <div className="p-6">
+            <Button
+              variant="outline"
+              onClick={() => setActivePanel(null)}
+              className="mb-4"
+            >
+              ← Back to Dashboard
+            </Button>
+            <PriorAuthManager />
+          </div>
+        </div>
+      )}
+      {activePanel === 'coding' && (
+        <div className="fixed inset-0 bg-background z-50 overflow-auto">
+          <div className="p-6">
+            <Button
+              variant="outline"
+              onClick={() => setActivePanel(null)}
+              className="mb-4"
+            >
+              ← Back to Dashboard
+            </Button>
+            <MedicalCodingAssistant />
+          </div>
+        </div>
       )}
       {activePanel === 'analytics' && (
         <RevenueAnalyticsPanel onClose={() => setActivePanel(null)} />
