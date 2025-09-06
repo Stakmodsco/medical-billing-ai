@@ -13,6 +13,8 @@ import { AIClaimProcessor } from '@/components/AIClaimProcessor';
 import { PriorAuthManager } from '@/components/PriorAuthManager';
 import { MedicalCodingAssistant } from '@/components/MedicalCodingAssistant';
 import { SecurityPanel } from '@/components/SecurityPanel';
+import { AdvancedAnalytics } from '@/components/AdvancedAnalytics';
+import { PerformanceMonitor } from '@/components/PerformanceMonitor';
 import { useRoleBasedAccess } from '@/hooks/useRoleBasedAccess';
 import { 
   Activity, 
@@ -32,7 +34,7 @@ export const Dashboard = () => {
   const { toast } = useToast();
   const { getDashboardMetrics, loading } = useHealthcareData();
   const { canAccess } = useRoleBasedAccess();
-  const [activePanel, setActivePanel] = useState<'claims' | 'analytics' | 'settings' | 'patients' | 'prior-auth' | 'coding' | 'security' | null>(null);
+  const [activePanel, setActivePanel] = useState<'claims' | 'analytics' | 'settings' | 'patients' | 'prior-auth' | 'coding' | 'security' | 'advanced-analytics' | 'performance' | null>(null);
   
   const metrics = getDashboardMetrics();
 
@@ -187,6 +189,60 @@ export const Dashboard = () => {
           </Card>
         </div>
 
+        {/* Advanced Features */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-blue-600" />
+                Advanced Analytics
+              </CardTitle>
+              <CardDescription>
+                Comprehensive insights and performance metrics
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline" className="w-full" onClick={() => setActivePanel('advanced-analytics')}>
+                View Analytics
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Activity className="w-5 h-5 text-green-600" />
+                Performance Monitor
+              </CardTitle>
+              <CardDescription>
+                Real-time system performance and health monitoring
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline" className="w-full" onClick={() => setActivePanel('performance')}>
+                Monitor System
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="w-5 h-5 text-purple-600" />
+                Security Center
+              </CardTitle>
+              <CardDescription>
+                Security monitoring and compliance dashboard
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline" className="w-full" onClick={() => setActivePanel('security')}>
+                Security Dashboard
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* Recent Activity */}
         <Card>
           <CardHeader>
@@ -291,6 +347,34 @@ export const Dashboard = () => {
               ← Back to Dashboard
             </Button>
             <SecurityPanel />
+          </div>
+        </div>
+      )}
+      {activePanel === 'advanced-analytics' && (
+        <div className="fixed inset-0 bg-background z-50 overflow-auto">
+          <div className="p-6">
+            <Button
+              variant="outline"
+              onClick={() => setActivePanel(null)}
+              className="mb-4"
+            >
+              ← Back to Dashboard
+            </Button>
+            <AdvancedAnalytics />
+          </div>
+        </div>
+      )}
+      {activePanel === 'performance' && (
+        <div className="fixed inset-0 bg-background z-50 overflow-auto">
+          <div className="p-6">
+            <Button
+              variant="outline"
+              onClick={() => setActivePanel(null)}
+              className="mb-4"
+            >
+              ← Back to Dashboard
+            </Button>
+            <PerformanceMonitor />
           </div>
         </div>
       )}
