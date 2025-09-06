@@ -15,6 +15,8 @@ import { MedicalCodingAssistant } from '@/components/MedicalCodingAssistant';
 import { SecurityPanel } from '@/components/SecurityPanel';
 import { AdvancedAnalytics } from '@/components/AdvancedAnalytics';
 import { PerformanceMonitor } from '@/components/PerformanceMonitor';
+import { ProductionReadiness } from '@/components/ProductionReadiness';
+import { HelpCenter } from '@/components/HelpCenter';
 import { useRoleBasedAccess } from '@/hooks/useRoleBasedAccess';
 import { 
   Activity, 
@@ -26,7 +28,9 @@ import {
   Settings,
   Bell,
   LogOut,
-  Shield
+  Shield,
+  HelpCircle,
+  Rocket
 } from 'lucide-react';
 
 export const Dashboard = () => {
@@ -34,7 +38,7 @@ export const Dashboard = () => {
   const { toast } = useToast();
   const { getDashboardMetrics, loading } = useHealthcareData();
   const { canAccess } = useRoleBasedAccess();
-  const [activePanel, setActivePanel] = useState<'claims' | 'analytics' | 'settings' | 'patients' | 'prior-auth' | 'coding' | 'security' | 'advanced-analytics' | 'performance' | null>(null);
+  const [activePanel, setActivePanel] = useState<'claims' | 'analytics' | 'settings' | 'patients' | 'prior-auth' | 'coding' | 'security' | 'advanced-analytics' | 'performance' | 'production-readiness' | 'help' | null>(null);
   
   const metrics = getDashboardMetrics();
 
@@ -228,16 +232,33 @@ export const Dashboard = () => {
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Shield className="w-5 h-5 text-purple-600" />
-                Security Center
+                <Rocket className="w-5 h-5 text-indigo-600" />
+                Production Readiness
               </CardTitle>
               <CardDescription>
-                Security monitoring and compliance dashboard
+                System validation and deployment preparation
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full" onClick={() => setActivePanel('security')}>
-                Security Dashboard
+              <Button variant="outline" className="w-full" onClick={() => setActivePanel('production-readiness')}>
+                Check Readiness
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <HelpCircle className="w-5 h-5 text-gray-600" />
+                Help & Support
+              </CardTitle>
+              <CardDescription>
+                Documentation, tutorials, and customer support
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline" className="w-full" onClick={() => setActivePanel('help')}>
+                Get Help
               </Button>
             </CardContent>
           </Card>
@@ -375,6 +396,34 @@ export const Dashboard = () => {
               ← Back to Dashboard
             </Button>
             <PerformanceMonitor />
+          </div>
+        </div>
+      )}
+      {activePanel === 'production-readiness' && (
+        <div className="fixed inset-0 bg-background z-50 overflow-auto">
+          <div className="p-6">
+            <Button
+              variant="outline"
+              onClick={() => setActivePanel(null)}
+              className="mb-4"
+            >
+              ← Back to Dashboard
+            </Button>
+            <ProductionReadiness />
+          </div>
+        </div>
+      )}
+      {activePanel === 'help' && (
+        <div className="fixed inset-0 bg-background z-50 overflow-auto">
+          <div className="p-6">
+            <Button
+              variant="outline"
+              onClick={() => setActivePanel(null)}
+              className="mb-4"
+            >
+              ← Back to Dashboard
+            </Button>
+            <HelpCenter />
           </div>
         </div>
       )}
