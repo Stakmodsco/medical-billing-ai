@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
+import { useAI, ClaimAnalysis } from '@/hooks/useAI';
 import { 
   FileText, 
   Upload, 
@@ -15,7 +16,10 @@ import {
   Clock, 
   AlertCircle,
   X,
-  Plus
+  Plus,
+  Brain,
+  TrendingUp,
+  AlertTriangle
 } from 'lucide-react';
 
 interface ProcessClaimsPanelProps {
@@ -26,7 +30,9 @@ export const ProcessClaimsPanel = ({ onClose }: ProcessClaimsPanelProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [processingProgress, setProcessingProgress] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [analysis, setAnalysis] = useState<ClaimAnalysis | null>(null);
   const { toast } = useToast();
+  const { isLoading: isAnalyzing, analyzeClaim } = useAI();
 
   const [claimData, setClaimData] = useState({
     patientName: '',
@@ -51,6 +57,37 @@ export const ProcessClaimsPanel = ({ onClose }: ProcessClaimsPanelProps) => {
         title: "File Selected",
         description: `${file.name} ready for processing`,
       });
+    }
+  };
+
+  const handleAnalyzeClaim = async () => {
+    if (!claimData.patientName || !claimData.serviceDescription) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in patient name and service description to analyze.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    const mockClaimData = {
+      patientName: claimData.patientName,
+      serviceDescription: claimData.serviceDescription,
+      providerNotes: claimData.providerNotes,
+      claimAmount: claimData.claimAmount,
+      insuranceProvider: claimData.insuranceProvider,
+      timestamp: new Date().toISOString()
+    };
+    
+    try {
+      const result = await analyzeClaim(mockClaimData);
+      setAnalysis(result);
+      toast({
+        title: "Analysis Complete",
+        description: "AI analysis has been generated for your claim.",
+      });
+    } catch (error) {
+      console.error('Analysis failed:', error);
     }
   };
 
@@ -88,6 +125,24 @@ export const ProcessClaimsPanel = ({ onClose }: ProcessClaimsPanelProps) => {
     }
   };
 
+  const getRecommendationColor = (recommendation: string) => {
+    switch (recommendation) {
+      case 'approve': return 'success';
+      case 'review': return 'warning';
+      case 'deny': return 'destructive';
+      default: return 'secondary';
+    }
+  };
+
+  const getRecommendationIcon = (recommendation: string) => {
+    switch (recommendation) {
+      case 'approve': return <CheckCircle className="h-4 w-4" />;
+      case 'review': return <AlertTriangle className="h-4 w-4" />;
+      case 'deny': return <AlertTriangle className="h-4 w-4" />;
+      default: return <Clock className="h-4 w-4" />;
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-card border border-border rounded-lg shadow-lg w-full max-w-4xl max-h-[90vh] overflow-auto">
@@ -107,7 +162,7 @@ export const ProcessClaimsPanel = ({ onClose }: ProcessClaimsPanelProps) => {
         </div>
 
         <div className="p-6 space-y-6">
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid lg:grid-cols-3 gap-6">
             {/* New Claim Form */}
             <Card>
               <CardHeader>
@@ -218,25 +273,46 @@ export const ProcessClaimsPanel = ({ onClose }: ProcessClaimsPanelProps) => {
                     </div>
                     <Progress value={processingProgress} className="w-full" />
                   </div>
-                )}
+                 )}
 
-                <Button 
-                  className="w-full" 
-                  onClick={handleProcessClaim}
-                  disabled={isProcessing || !claimData.patientName || !claimData.claimAmount}
-                >
-                  {isProcessing ? (
-                    <>
-                      <Clock className="w-4 h-4 mr-2 animate-spin" />
-                      Processing...
-                    </>
-                  ) : (
-                    <>
-                      <CheckCircle className="w-4 h-4 mr-2" />
-                      Submit Claim
-                    </>
-                  )}
-                </Button>
+                <div className="space-y-2">
+                  <Button 
+                    variant="outline"
+                    className="w-full" 
+                    onClick={handleAnalyzeClaim}
+                    disabled={isAnalyzing || !claimData.patientName || !claimData.serviceDescription}
+                  >
+                    {isAnalyzing ? (
+                      <>
+                        <Brain className="w-4 h-4 mr-2 animate-spin" />
+                        Analyzing...
+                      </>
+                    ) : (
+                      <>
+                        <Brain className="w-4 h-4 mr-2" />
+                        Analyze with AI
+                      </>
+                    )}
+                  </Button>
+
+                  <Button 
+                    className="w-full" 
+                    onClick={handleProcessClaim}
+                    disabled={isProcessing || !claimData.patientName || !claimData.claimAmount}
+                  >
+                    {isProcessing ? (
+                      <>
+                        <Clock className="w-4 h-4 mr-2 animate-spin" />
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle className="w-4 h-4 mr-2" />
+                        Submit Claim
+                      </>
+                    )}
+                  </Button>
+                </div>
               </CardContent>
             </Card>
 
@@ -272,6 +348,94 @@ export const ProcessClaimsPanel = ({ onClose }: ProcessClaimsPanelProps) => {
                 </div>
               </CardContent>
             </Card>
+
+            {/* AI Analysis Results */}
+            {analysis && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Brain className="w-5 h-5" />
+                    AI Analysis Results
+                  </CardTitle>
+                  <CardDescription>AI-generated insights and recommendations</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-primary mb-1">
+                        {Math.round(analysis.confidence * 100)}%
+                      </div>
+                      <div className="text-sm text-muted-foreground">Confidence</div>
+                      <Progress value={analysis.confidence * 100} className="mt-2" />
+                    </div>
+                    
+                    <div className="text-center">
+                      <Badge 
+                        variant={getRecommendationColor(analysis.recommendation) as any}
+                        className="mb-2 capitalize"
+                      >
+                        {getRecommendationIcon(analysis.recommendation)}
+                        <span className="ml-1">{analysis.recommendation}</span>
+                      </Badge>
+                      <div className="text-sm text-muted-foreground">Recommendation</div>
+                    </div>
+                    
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-primary mb-1">
+                        {analysis.estimatedProcessingTime}h
+                      </div>
+                      <div className="text-sm text-muted-foreground">Est. Processing</div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-semibold mb-2 flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4 text-success" />
+                        Key Findings
+                      </h4>
+                      <ul className="space-y-1">
+                        {analysis.reasons.map((reason, index) => (
+                          <li key={index} className="text-sm text-muted-foreground flex items-start gap-2">
+                            <div className="h-1.5 w-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                            {reason}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {analysis.riskFactors.length > 0 && (
+                      <div>
+                        <h4 className="font-semibold mb-2 flex items-center gap-2">
+                          <AlertTriangle className="h-4 w-4 text-warning" />
+                          Risk Factors
+                        </h4>
+                        <ul className="space-y-1">
+                          {analysis.riskFactors.map((factor, index) => (
+                            <li key={index} className="text-sm text-muted-foreground flex items-start gap-2">
+                              <div className="h-1.5 w-1.5 rounded-full bg-warning mt-2 flex-shrink-0" />
+                              {factor}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex gap-2 pt-4 border-t">
+                    <Button variant="outline" size="sm">
+                      Review Details
+                    </Button>
+                    <Button variant="outline" size="sm">
+                      Generate Report
+                    </Button>
+                    <Button size="sm" className="ml-auto">
+                      Process Claim
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
       </div>
