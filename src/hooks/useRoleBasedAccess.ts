@@ -87,6 +87,11 @@ export const useRoleBasedAccess = () => {
   const hasPermission = (resource: string, action: Permission['action']): boolean => {
     const permissions = ROLE_PERMISSIONS[userRole];
     
+    // Safety check to prevent undefined error
+    if (!permissions) {
+      return false;
+    }
+    
     return permissions.some(permission => 
       (permission.resource === '*' || permission.resource === resource) &&
       permission.action === action
